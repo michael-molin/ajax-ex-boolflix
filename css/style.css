@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.container-fullwidth {
+    padding: 10px;
+}
+
+.container {
+    margin-top: 10px;
+}
+
+.film {
+    margin-bottom: 10px;
+}
+
+.img-error {
+    width: auto;
+    height: 400px;
+}
+
+.errore {
+    text-align: center;
+}

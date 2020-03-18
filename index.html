@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    <script src="https://kit.fontawesome.com/a51364b666.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+  </head>
+  <body>
+
+    <div class="container-fullwidth">
+        <input type="text" id="input-bar" <placeholder="Inserire il tuo criterio di ricerca">
+        <button type="button" id="btn-search" name="button"> Cerca</button>
+        <div class="container"></div>
+    </div>
+
+    <script id="film-template" type="text/x-handlebars-template">
+        <div class="film">
+            <h4 class="titolo">{{titolo}}</h4>
+            <h5 class="titolo-originale">{{titoloOriginale}}</h5>
+            <span class="lingua">{{lingua}}</span>
+            <span class="voto">{{voto}}</span>
+        </div>
+    </script>
+
+    <script id="errore-template" type="text/x-handlebars-template">
+        <div class="errore">
+            <img class= "img-error" src="https://i.pinimg.com/474x/d8/7c/2d/d87c2d9de8f954c8717c84a5880be6f2--meme-faces-google-search.jpg" alt="">
+            <h3 class="titolo-errore">Nessun Titolo trovato!</h3>
+        </div>
+    </script>
+
+
+  </body>
+</html>
