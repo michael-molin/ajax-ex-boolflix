@@ -25,3 +25,8 @@
 .errore {
     text-align: center;
 }
+
+#stella-piena , #stella-vuota {
+    color: yellow;
+    font-size: 18px;
+}

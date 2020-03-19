@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     var baseUrl = "https://api.themoviedb.org/3";
 
     var source = $("#film-template").html();
@@ -9,8 +8,10 @@ $(document).ready(function () {
     var erroreTemplate = Handlebars.compile(sourceErrore);
 
 
+
     $('#btn-search').click(function() {
         cercaTitolo();
+
     });
 
     $('#input-bar').keypress(function(event) {
@@ -47,7 +48,8 @@ $(document).ready(function () {
                         titolo: films[i].title,
                         titoloOriginale: films[i].original_title,
                         lingua: films[i].original_language,
-                        voto: films[i].vote_average
+                        // voto: films[i].vote_average
+                        voto: setStelle(films[i].vote_average)
                     }
                     var filmCompilato = filmTemplate(film);
                     $('.container').append(filmCompilato);
@@ -61,4 +63,21 @@ $(document).ready(function () {
         $('#input-bar').val('');
     }
 
+    function setStelle (filmVoto) {
+        var voto = Math.ceil(filmVoto/2);
+        var stelle = "";
+
+        console.log('il voto è', voto);
+        for (var i = 1; i <= 5; i++) {
+            console.log(i);
+            if (i <= voto) {
+                console.log('metto stella piena');
+                stelle += '<i id="stella-piena" class="fas fa-star"></i>';
+            } else {
+                console.log('metto stella vuota');
+                stelle += '<i id="stella-piena" class="far fa-star"></i>';
+            }
+        }
+        return stelle;
+    }
 });
