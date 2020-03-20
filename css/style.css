@@ -9,12 +9,21 @@
     padding: 10px;
 }
 
-.container {
+.container-film {
     margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.film {
-    margin-bottom: 10px;
+.container-serie {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    margin: 0 5px 10px 5px;
+    border: 1px solid black;
 }
 
 .img-error {

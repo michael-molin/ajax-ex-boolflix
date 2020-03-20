@@ -16,23 +16,16 @@
     <div class="container-fullwidth">
         <input type="text" id="input-bar" <placeholder="Inserire il tuo criterio di ricerca">
         <button type="button" id="btn-search" name="button"> Cerca</button>
-        <div class="container"></div>
+        <div class="container-film"></div>
+        <div class="container-serie"></div>
     </div>
 
-    <script id="film-template" type="text/x-handlebars-template">
-        <div class="film">
+    <script id="card-template" type="text/x-handlebars-template">
+        <div class="card">
             <h4 class="titolo">{{titolo}}</h4>
             <h5 class="titolo-originale">{{titoloOriginale}}</h5>
-            <span class="lingua">{{lingua}}</span>
+            <span class="lingua">{{{lingua}}}</span>
             <div class="voto">{{{voto}}}</div>
-        </div>
-    </script>
-    <script id="serie-template" type="text/x-handlebars-template">
-        <div class="serie">
-            <h4 class="titolo">{{titoloSerie}}</h4>
-            <h5 class="titolo-originale">{{titoloOriginaleSerie}}</h5>
-            <span class="lingua">{{linguaSerie}}</span>
-            <div class="voto">{{{votoSerie}}}</div>
         </div>
     </script>
 

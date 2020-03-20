@@ -1,11 +1,11 @@
 $(document).ready(function () {
-
     var noFilm = false;
     var noSerie = false;
-    var source = $("#film-template").html();
-    var filmTemplate = Handlebars.compile(source);
 
-    var sourceSerie = $("#serie-template").html();
+    var sourceFilm = $("#card-template").html();
+    var filmTemplate = Handlebars.compile(sourceFilm);
+
+    var sourceSerie = $("#card-template").html();
     var serieTemplate = Handlebars.compile(sourceSerie);
 
     var sourceErrore = $("#errore-template").html();
@@ -14,8 +14,13 @@ $(document).ready(function () {
 
 
     $('#btn-search').click(function() {
-        cercaTitolo();
+        if($('#input-bar').val().trim().length == 0) {
+            alert('Non hai inserito nessuna parola o lettera!');
+        } else {
+            cercaTitolo();
+        }
     });
+
 
     $('#input-bar').keypress(function(event) {
         if(event.key == "Enter") {
@@ -25,125 +30,74 @@ $(document).ready(function () {
                 cercaTitolo();
             }
         }
-
     });
 
 
     function cercaTitolo(){
+        $('.card').remove();
         var baseUrl = "https://api.themoviedb.org/3";
         var risultatoInput = $('#input-bar').val();
+        cercaFilm(baseUrl, risultatoInput);
+        cercaSerie(baseUrl, risultatoInput);
+        $('#input-bar').val('');
+
+    }
+
+    function cercaFilm(url, input) {
         $.ajax({
-            url: baseUrl + "/search/movie",
+            url: url + "/search/movie",
             data: {
                 api_key: 'e4a6a0f5b61f8597156e751b684b7437',
-                query: risultatoInput,
+                query: input,
                 language: 'it-IT'
             },
             success: function (data) {
-                $('.film').remove();
                 var films = data.results;
-                if (films.length == 0) {
-                    // alert('nessun risultato disponibile');
-                    noFilm = true;
-                    console.log('no film trovati');
-                } else {
                 for (var i = 0; i < films.length; i++) {
-                    // var filmCompleto = films[i];
                     var film = {
                         titolo: films[i].title,
                         titoloOriginale: films[i].original_title,
-                        lingua: films[i].original_language,
-                        // voto: films[i].vote_average
+                        lingua: setLingua(films[i].original_language),
                         voto: setStelle(films[i].vote_average)
                     }
                     var filmCompilato = filmTemplate(film);
-                    $('.container').append(filmCompilato);
+                    $('.container-film').append(filmCompilato);
                     noFilm = false;
                     }
-                }
             },
             error: function () {
                 alert('ERRORISSIMO FILM');
             }
         })
+    }
+
+    function cercaSerie(url, input){
         $.ajax({
-            url: baseUrl + "/search/tv",
+            url: url + "/search/tv",
             data: {
                 api_key: 'e4a6a0f5b61f8597156e751b684b7437',
-                query: risultatoInput,
+                query: input,
                 language: 'it-IT'
             },
             success: function (data) {
-                $('.serie').remove();
                 var series = data.results;
-                if (series.length == 0) {
-                    console.log('no serie tv trovate');
-                    noSerie = true;
-                } else {
                 for (var i = 0; i < series.length; i++) {
-                    // var filmCompleto = films[i];
                     var serie = {
-                        titoloSerie: series[i].name,
-                        titoloOriginaleSerie: series[i].original_name,
-                        linguaSerie: series[i].original_language,
-                        // voto: films[i].vote_average
-                        votoSerie: setStelle(series[i].vote_average)
+                        titolo: series[i].name,
+                        titoloOriginale: series[i].original_name,
+                        lingua: setLingua(series[i].original_language),
+                        voto: setStelle(series[i].vote_average)
                     }
                     var serieCompilata = serieTemplate(serie);
-                    $('.container').append(serieCompilata);
+                    $('.container-serie').append(serieCompilata);
                     noSerie = false;
                     }
-                }
             },
             error: function () {
                 alert('ERRORISSIMO SERIE TV');
             }
         })
-        console.log('la variabile No Film è ', noFilm);
-        console.log('la variabile No serie tv è ', noSerie);
-        if ((noSerie == true) && (noFilm == true)) {
-            $('.container').append(erroreTemplate);
-        }
-        $('#input-bar').val('');
     }
-
-    // function cercaSerie(){
-    //     var baseUrl = "https://api.themoviedb.org/3";
-    //     var risultatoInput = $('#input-bar').val();
-    //     $.ajax({
-    //         url: baseUrl + "/search/tv",
-    //         data: {
-    //             api_key: 'e4a6a0f5b61f8597156e751b684b7437',
-    //             query: risultatoInput,
-    //             language: 'it-IT'
-    //         },
-    //         success: function (data) {
-    //             $('.serie').remove();
-    //             var series = data.results;
-    //             if (series.length == 0) {
-    //                 console.log('no serie tv trovate');
-    //                 noSerie = true;
-    //             } else {
-    //             for (var i = 0; i < series.length; i++) {
-    //                 // var filmCompleto = films[i];
-    //                 var serie = {
-    //                     titoloSerie: series[i].name,
-    //                     titoloOriginaleSerie: series[i].original_name,
-    //                     linguaSerie: series[i].original_language,
-    //                     // voto: films[i].vote_average
-    //                     votoSerie: setStelle(series[i].vote_average)
-    //                 }
-    //                 var serieCompilata = serieTemplate(serie);
-    //                 $('.container').append(serieCompilata);
-    //                 noSerie = false;
-    //                 }
-    //             }
-    //         },
-    //         error: function () {
-    //             alert('ERRORISSIMO SERIE TV');
-    //         }
-    //     })
-    // }
 
     function setStelle (filmVoto) {
         var voto = Math.ceil(filmVoto/2);
@@ -157,5 +111,32 @@ $(document).ready(function () {
             }
         }
         return stelle;
+    }
+
+    function setLingua (lingua) {
+        var flag = [
+        {
+            linguaggio: "it",
+            bandiera: '<img src="https://www.countryflags.io/IT/shiny/64.png">'
+        },
+        {
+            linguaggio: "en",
+            bandiera: '<img src="https://www.countryflags.io/GB/shiny/64.png">'
+        },
+        {
+            linguaggio: "fr",
+            bandiera: '<img src="https://www.countryflags.io/FR/shiny/64.png">'
+        },
+        {
+            linguaggio: "de",
+            bandiera: '<img src="https://www.countryflags.io/DE/shiny/64.png">'
+        }
+    ];
+        for (var i = 0; i < flag.length; i++) {
+            if(lingua == flag[i].linguaggio) {
+                return flag[i].bandiera;
+            }
+        }
+        return lingua;
     }
 });
