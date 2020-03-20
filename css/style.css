@@ -24,6 +24,12 @@
 .card {
     margin: 0 5px 10px 5px;
     border: 1px solid black;
+    width: 150px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .img-error {
