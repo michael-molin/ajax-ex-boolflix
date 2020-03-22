@@ -58,7 +58,8 @@ $(document).ready(function () {
                         titolo: films[i].title,
                         titoloOriginale: films[i].original_title,
                         lingua: setLingua(films[i].original_language),
-                        voto: setStelle(films[i].vote_average)
+                        voto: setStelle(films[i].vote_average),
+                        poster: films[i].poster_path
                     }
                     var filmCompilato = filmTemplate(film);
                     $('.container-film').append(filmCompilato);
@@ -86,7 +87,8 @@ $(document).ready(function () {
                         titolo: series[i].name,
                         titoloOriginale: series[i].original_name,
                         lingua: setLingua(series[i].original_language),
-                        voto: setStelle(series[i].vote_average)
+                        voto: setStelle(series[i].vote_average),
+                        poster: series[i].poster_path
                     }
                     var serieCompilata = serieTemplate(serie);
                     $('.container-serie').append(serieCompilata);
