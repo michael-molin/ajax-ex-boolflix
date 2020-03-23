@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Template</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900|Open+Sans&display=swap" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
     <script src="https://kit.fontawesome.com/a51364b666.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"></script>
@@ -14,21 +15,40 @@
   <body>
 
     <div class="container-fullwidth">
-        <input type="text" id="input-bar" <placeholder="Inserire il tuo criterio di ricerca">
-        <button type="button" id="btn-search" name="button"> Cerca</button>
+        <header class="header-top">
+            <div class="header-sx">
+                <div>
+                <span class="logo">boolflix</span>
+                </div>
+                <div class="header-list">
+                        <span id="li-tv">Serie Tv</span>
+                        <span id="li-film">Film</span>
+                        <span id="li-nuovi">Novità</span>
+                        <span id="li-mia-lista">La mia Lista</span>
+                </div>
+            </div>
+            <div class="search">
+                <input type="text" id="input-bar" <placeholder="Inserire il tuo criterio di ricerca">
+                <i class="fas fa-search" id="btn-search"></i>
+            </div>
+        </header>
+    <div class="container-titoli">
         <div class="container-film"></div>
         <div class="container-serie"></div>
     </div>
 
+    </div>
+
     <script id="card-template" type="text/x-handlebars-template">
         <div class="card">
-            <div class="card-titolo">
+            <img src="https://image.tmdb.org/t/p/w342/{{poster}}" class="img-card"alt="">
+            <div class="card-info">
                 <h4 class="titolo">{{titolo}}</h4>
                 <h5 class="titolo-originale">{{titoloOriginale}}</h5>
+                <span class="lingua">{{{lingua}}}</span>
+                <p class="card-testo">{{testo}}</p>
+                <div class="voto">{{{voto}}}</div>
             </div>
-            <img src="https://image.tmdb.org/t/p/w185/{{poster}}" alt="">
-            <span class="lingua">{{{lingua}}}</span>
-            <div class="voto">{{{voto}}}</div>
         </div>
     </script>
 

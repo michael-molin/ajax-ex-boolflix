@@ -11,7 +11,17 @@ $(document).ready(function () {
     var sourceErrore = $("#errore-template").html();
     var erroreTemplate = Handlebars.compile(sourceErrore);
 
+    $(document).on("mouseenter",".card", function() {
+        console.log('dentro mouseneter card');
+        $(this).find('.img-card').hide();
+        $(this).find('.card-info').show();
+    });
 
+    $(document).on("mouseleave",".card", function() {
+        console.log('dentro mouseleave card');
+        $(this).find('.img-card').show();
+        $(this).find('.card-info').hide();
+    });
 
     $('#btn-search').click(function() {
         if($('#input-bar').val().trim().length == 0) {
@@ -39,6 +49,7 @@ $(document).ready(function () {
         var risultatoInput = $('#input-bar').val();
         cercaFilm(baseUrl, risultatoInput);
         cercaSerie(baseUrl, risultatoInput);
+        $('.card-info').hide();
         $('#input-bar').val('');
 
     }
@@ -57,6 +68,7 @@ $(document).ready(function () {
                     var film = {
                         titolo: films[i].title,
                         titoloOriginale: films[i].original_title,
+                        testo: films[i].overview,
                         lingua: setLingua(films[i].original_language),
                         voto: setStelle(films[i].vote_average),
                         poster: films[i].poster_path
@@ -86,6 +98,7 @@ $(document).ready(function () {
                     var serie = {
                         titolo: series[i].name,
                         titoloOriginale: series[i].original_name,
+                        testo: series[i].overview,
                         lingua: setLingua(series[i].original_language),
                         voto: setStelle(series[i].vote_average),
                         poster: series[i].poster_path

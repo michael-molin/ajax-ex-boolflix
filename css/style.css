@@ -2,11 +2,60 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+header {
+    height: 100px;
+    width: 100%;
+    position: sticky;
+    display: flex;
+    justify-content: space-between;
+    background-color: black;
+    align-items: center;
+    color: white;
+}
+
+.header-sx {
+    display:flex;
+    align-items: center;
+}
+
+.logo {
+    color:red;
+    font-size: 32px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    margin-right: 15px;
+}
+
+.header-list span {
+    margin: 0 8px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+}
+
+#btn-search {
+    margin: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+#input-bar {
+    padding: 5px;
 }
 
 
 .container-fullwidth {
-    padding: 10px;
+    position: relative;
+    background-color: black;
+    min-height: 100vh;
 }
 
 .container-film {
@@ -23,14 +72,34 @@
 
 .card {
     margin: 0 5px 10px 5px;
-    border: 1px solid black;
-    width: 200px;
-    height: 250px;
+    width: 345px;
+    height: 515px;
+    border: 1px solid white;
+    overflow-y: hidden;
+}
+
+.card-info {
+    color:white;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
+    padding: 10px;
+
 }
+
+.card-image img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.card-testo {
+    height: 300px;
+    overflow-y: auto;
+    text-overflow: ellipsis;
+}
+
+
 
 .img-error {
     width: auto;
@@ -44,4 +113,8 @@
 #stella-piena , #stella-vuota {
     color: yellow;
     font-size: 16px;
+}
+
+.container-film, .container-serie {
+    margin: 0 auto;
 }
