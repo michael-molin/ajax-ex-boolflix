@@ -1,115 +1,74 @@
 $(document).ready(function () {
-    var noFilm = false;
-    var noSerie = false;
-
-    var sourceFilm = $("#card-template").html();
-    var filmTemplate = Handlebars.compile(sourceFilm);
-
-    var sourceSerie = $("#card-template").html();
-    var serieTemplate = Handlebars.compile(sourceSerie);
-
-    var sourceErrore = $("#errore-template").html();
-    var erroreTemplate = Handlebars.compile(sourceErrore);
-
-    $(document).on("mouseenter",".card", function() {
-        console.log('dentro mouseneter card');
-        $(this).find('.img-card').hide();
-        $(this).find('.card-info').show();
-    });
-
-    $(document).on("mouseleave",".card", function() {
-        console.log('dentro mouseleave card');
-        $(this).find('.img-card').show();
-        $(this).find('.card-info').hide();
-    });
+    var source = $("#card-template").html();
+    var template = Handlebars.compile(source);
 
     $('#btn-search').click(function() {
         if($('#input-bar').val().trim().length == 0) {
             alert('Non hai inserito nessuna parola o lettera!');
         } else {
-            cercaTitolo();
+            ricerca();
         }
     });
-
 
     $('#input-bar').keypress(function(event) {
         if(event.key == "Enter") {
             if($('#input-bar').val().trim().length == 0) {
                 alert('Non hai inserito nessuna parola o lettera!');
             } else {
-                cercaTitolo();
+                ricerca();
             }
         }
     });
 
-
-    function cercaTitolo(){
+    function ricerca(){
         $('.card').remove();
         var baseUrl = "https://api.themoviedb.org/3";
         var risultatoInput = $('#input-bar').val();
-        cercaFilm(baseUrl, risultatoInput);
-        cercaSerie(baseUrl, risultatoInput);
-        $('.card-info').hide();
+        cercaTitolo("movie", baseUrl, risultatoInput);
+        cercaTitolo("tv", baseUrl, risultatoInput);
         $('#input-bar').val('');
-
     }
 
-    function cercaFilm(url, input) {
+    function cercaTitolo(tipo, url, input) {
         $.ajax({
-            url: url + "/search/movie",
+            url: url + "/search/" + tipo,
             data: {
                 api_key: 'e4a6a0f5b61f8597156e751b684b7437',
                 query: input,
                 language: 'it-IT'
             },
             success: function (data) {
-                var films = data.results;
-                for (var i = 0; i < films.length; i++) {
-                    var film = {
-                        titolo: films[i].title,
-                        titoloOriginale: films[i].original_title,
-                        testo: films[i].overview,
-                        lingua: setLingua(films[i].original_language),
-                        voto: setStelle(films[i].vote_average),
-                        poster: films[i].poster_path
+                var titoli = data.results;
+                for (var i = 0; i < titoli.length; i++) {
+                    if (tipo == "movie") {
+                        var pathTitolo = titoli[i].title;
+                        var pathTitoloOriginale = titoli[i].original_title;
+                    } else {
+                        var pathTitolo = titoli[i].name;
+                        var pathTitoloOriginale = titoli[i].original_name;
                     }
-                    var filmCompilato = filmTemplate(film);
-                    $('.container-film').append(filmCompilato);
-                    noFilm = false;
+                    var questoTitolo = {
+                        titolo: pathTitolo,
+                        titoloOriginale: pathTitoloOriginale,
+                        testo: titoli[i].overview,
+                        lingua: setLingua(titoli[i].original_language),
+                        voto: setStelle(titoli[i].vote_average),
+                        poster: setPoster(titoli[i].poster_path)
                     }
-            },
-            error: function () {
-                alert('ERRORISSIMO FILM');
-            }
-        })
-    }
 
-    function cercaSerie(url, input){
-        $.ajax({
-            url: url + "/search/tv",
-            data: {
-                api_key: 'e4a6a0f5b61f8597156e751b684b7437',
-                query: input,
-                language: 'it-IT'
-            },
-            success: function (data) {
-                var series = data.results;
-                for (var i = 0; i < series.length; i++) {
-                    var serie = {
-                        titolo: series[i].name,
-                        titoloOriginale: series[i].original_name,
-                        testo: series[i].overview,
-                        lingua: setLingua(series[i].original_language),
-                        voto: setStelle(series[i].vote_average),
-                        poster: series[i].poster_path
+                    if (questoTitolo.titolo == questoTitolo.titoloOriginale) {
+                        delete questoTitolo.titoloOriginale;
                     }
-                    var serieCompilata = serieTemplate(serie);
-                    $('.container-serie').append(serieCompilata);
-                    noSerie = false;
+                    var titoloCompilato = template(questoTitolo);
+                    if (tipo == "movie") {
+                        $('.container-film').append(titoloCompilato);
+                    } else {
+                        $('.container-serie').append(titoloCompilato);
                     }
+                }
             },
             error: function () {
-                alert('ERRORISSIMO SERIE TV');
+                alert('ERRORE');
             }
         })
     }
@@ -153,5 +112,13 @@ $(document).ready(function () {
             }
         }
         return lingua;
+    }
+
+    function setPoster (poster) {
+        if (poster != null) {
+            return "https://image.tmdb.org/t/p/w342/" + poster
+        } else {
+            return "https://www.2queue.com/2queue/wp-content/uploads/sites/6/tdomf/4299/movie-poster-coming-soon.png"
+        }
     }
 });

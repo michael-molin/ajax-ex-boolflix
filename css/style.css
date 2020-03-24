@@ -9,11 +9,13 @@ header {
     height: 100px;
     width: 100%;
     position: sticky;
+    top: 0;
     display: flex;
     justify-content: space-between;
     background-color: black;
     align-items: center;
     color: white;
+    z-index: 1;
 }
 
 .header-sx {
@@ -51,46 +53,51 @@ header {
     padding: 5px;
 }
 
-
 .container-fullwidth {
     position: relative;
     background-color: black;
     min-height: 100vh;
 }
 
-.container-film {
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.container-serie {
-    margin-top: 10px;
+.container-film, .container-serie {
+    padding: 25px 45px 50px 45px;
     display: flex;
     flex-wrap: wrap;
 }
 
 .card {
-    margin: 0 5px 10px 5px;
-    width: 345px;
-    height: 515px;
+    margin: 5px;
+    flex: 0 1 345px;
     border: 1px solid white;
     overflow-y: hidden;
+    position: relative;
 }
 
 .card-info {
-    color:white;
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 10px;
-
 }
 
-.card-image img {
+.poster-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.poster-overlay img {
     width: 100%;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card:hover .poster-overlay {
+    display: none;
 }
 
 .card-testo {
@@ -99,22 +106,7 @@ header {
     text-overflow: ellipsis;
 }
 
-
-
-.img-error {
-    width: auto;
-    height: 400px;
-}
-
-.errore {
-    text-align: center;
-}
-
 #stella-piena , #stella-vuota {
     color: yellow;
     font-size: 16px;
-}
-
-.container-film, .container-serie {
-    margin: 0 auto;
 }

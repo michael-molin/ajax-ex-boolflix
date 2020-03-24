@@ -15,7 +15,7 @@
   <body>
 
     <div class="container-fullwidth">
-        <header class="header-top">
+        <header>
             <div class="header-sx">
                 <div>
                 <span class="logo">boolflix</span>
@@ -32,16 +32,17 @@
                 <i class="fas fa-search" id="btn-search"></i>
             </div>
         </header>
-    <div class="container-titoli">
-        <div class="container-film"></div>
-        <div class="container-serie"></div>
-    </div>
-
+        <div class="container-titoli">
+            <div class="container-film"></div>
+            <div class="container-serie"></div>
+        </div>
     </div>
 
     <script id="card-template" type="text/x-handlebars-template">
         <div class="card">
-            <img src="https://image.tmdb.org/t/p/w342/{{poster}}" class="img-card"alt="">
+            <div class="poster-overlay">
+                <img src={{{poster}}} class="poster-card"alt="">
+            </div>
             <div class="card-info">
                 <h4 class="titolo">{{titolo}}</h4>
                 <h5 class="titolo-originale">{{titoloOriginale}}</h5>
@@ -49,13 +50,6 @@
                 <p class="card-testo">{{testo}}</p>
                 <div class="voto">{{{voto}}}</div>
             </div>
-        </div>
-    </script>
-
-    <script id="errore-template" type="text/x-handlebars-template">
-        <div class="errore">
-            <img class= "img-error" src="https://i.pinimg.com/474x/d8/7c/2d/d87c2d9de8f954c8717c84a5880be6f2--meme-faces-google-search.jpg" alt="">
-            <h3 class="titolo-errore">Nessun Titolo trovato!</h3>
         </div>
     </script>
 
