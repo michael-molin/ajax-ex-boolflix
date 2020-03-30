@@ -2,7 +2,17 @@ $(document).ready(function () {
     var source = $("#card-template").html();
     var template = Handlebars.compile(source);
 
+    var listaGeneriFilm;
+    var listaGeneriTv;
+    creaLista("movie");
+    creaLista("tv");
+
+
+
+
     $('#btn-search').click(function() {
+      console.log(listaGeneriFilm);
+      console.log(listaGeneriTv);
         if($('#input-bar').val().trim().length == 0) {
             alert('Non hai inserito nessuna parola o lettera!');
         } else {
@@ -43,9 +53,11 @@ $(document).ready(function () {
                     if (tipo == "movie") {
                         var pathTitolo = titoli[i].title;
                         var pathTitoloOriginale = titoli[i].original_title;
+                        var lista = listaGeneriFilm;
                     } else {
                         var pathTitolo = titoli[i].name;
                         var pathTitoloOriginale = titoli[i].original_name;
+                        var lista = listaGeneriTv;
                     }
                     var questoTitolo = {
                         titolo: pathTitolo,
@@ -53,8 +65,11 @@ $(document).ready(function () {
                         testo: titoli[i].overview,
                         lingua: setLingua(titoli[i].original_language),
                         voto: setStelle(titoli[i].vote_average),
-                        poster: setPoster(titoli[i].poster_path)
+                        poster: setPoster(titoli[i].poster_path),
+                        cast: setCast(titoli[i].id, url, tipo),
+                        genere: setGenere(titoli[i].genre_ids, lista)
                     }
+
 
                     if (questoTitolo.titolo == questoTitolo.titoloOriginale) {
                         delete questoTitolo.titoloOriginale;
@@ -71,6 +86,64 @@ $(document).ready(function () {
                 alert('ERRORE');
             }
         })
+    }
+
+    function setCast(idTitolo, baseurl, tipo) {
+      var attori = "";
+      $.ajax({
+        url: baseurl + "/" + tipo + "/" + idTitolo + "/credits",
+        method: "GET",
+        data: {
+          api_key: 'e4a6a0f5b61f8597156e751b684b7437'
+        },
+        success: function(data) {
+          var temp = data.cast;
+          for (var i = 0; i <= 4; i++) {
+            if (i<4) {
+              attori += temp[i].name + ", ";
+            } else {
+              attori += temp[i].name + ".";
+            }
+          }
+          console.log(attori);
+        },
+        error: function () {
+            alert('ERRORE CAST');
+        }
+      })
+
+    }
+
+    function setGenere (idGenere, lista) {
+      var tuttiGeneri = "";
+      for (var i = 0; i < idGenere.length; i++) {
+        for (var x = 0; x < lista.length; x++) {
+          if (idGenere[i] == lista[x].id) {
+            tuttiGeneri += lista[x].name + " ";
+          }
+        }
+      }
+      return tuttiGeneri;
+    }
+
+    function creaLista (serieFilm) {
+      $.ajax ({
+          url: "https://api.themoviedb.org/3/genre/"+serieFilm+"/list",
+          method: "GET",
+          data: {
+                api_key: 'e4a6a0f5b61f8597156e751b684b7437'
+          },
+          success: function (data) {
+            if (serieFilm == "movie") {
+              listaGeneriFilm = data.genres;
+            } else {
+              listaGeneriTv = data.genres;
+            }
+          },
+          error: function() {
+            alert('errore genere');
+          }
+      })
     }
 
     function setStelle (filmVoto) {
