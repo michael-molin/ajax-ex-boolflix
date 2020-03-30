@@ -66,9 +66,7 @@ $(document).ready(function () {
                         lingua: setLingua(titoli[i].original_language),
                         voto: setStelle(titoli[i].vote_average),
                         poster: setPoster(titoli[i].poster_path),
-                        cast: setCast(titoli[i].id, url, tipo, function (attori) {
-                            return ritornoAttori(attori);
-                        }),
+                        cast: setCast(titoli[i].id, url, tipo, ritornoAttori),
                         genere: setGenere(titoli[i].genre_ids, lista)
                     }
 
@@ -91,39 +89,36 @@ $(document).ready(function () {
     }
 
     function ritornoAttori(listaAttori) {
-        console.log('dentro attori ricavati');
-        console.log(listaAttori);
+        var attoriFilm = "";
+        for (var i = 0; i <= 4; i++) {
+            if (i < 4) {
+                attoriFilm += listaAttori[i].name + ", ";
+            } else {
+                attoriFilm += listaAttori[i].name + ".";
+            }
+        }
+        console.log(attoriFilm);
+        return attoriFilm;
         // $('.attori').text(listaAttori);
     }
 
-    function setCast(idTitolo, baseurl, tipo) {
-    var attori = "";
-    $.ajax({
-        url: baseurl + "/" + tipo + "/" + idTitolo + "/credits",
-        method: "GET",
-        data: {
-            api_key: 'e4a6a0f5b61f8597156e751b684b7437'
-        },
-        success: function(data) {
-            var temp = data.cast;
-            for (var i = 0; i <= 4; i++) {
-                if (i < 4) {
-                    attori += temp[i].name + ", ";
-                } else {
-                    attori += temp[i].name + ".";
-                }
+        function setCast(idTitolo, baseurl, tipo) {
+        $.ajax({
+            url: baseurl + "/" + tipo + "/" + idTitolo + "/credits",
+            method: "GET",
+            data: {
+                api_key: 'e4a6a0f5b61f8597156e751b684b7437'
+            },
+            success: function(data) {
+                ritornoAttori(data.cast);
+            },
+            error: function() {
+                alert('ERRORE CAST');
             }
-            if (ritornoAttori && typeof ritornoAttori === 'function') {
-                ritornoAttori(attori);
-            }
+        })
 
-        },
-        error: function() {
-            alert('ERRORE CAST');
-        }
-    })
+    }
 
-}
 
     function setGenere (idGenere, lista) {
       var genereTitolo = "";
