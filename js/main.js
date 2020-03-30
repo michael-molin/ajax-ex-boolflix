@@ -6,17 +6,19 @@ $(document).ready(function () {
     var listaGeneriTv;
     creaLista("movie");
     creaLista("tv");
+    var listaGeneriSelect = [];
 
-
-
+    $('.select-genere').change(function() {
+        var genereSelezionato = $(this).val();
+        applicaFiltro(genereSelezionato);
+    });
 
     $('#btn-search').click(function() {
-      console.log(listaGeneriFilm);
-      console.log(listaGeneriTv);
         if($('#input-bar').val().trim().length == 0) {
             alert('Non hai inserito nessuna parola o lettera!');
         } else {
             ricerca();
+            riempiFiltro(listaGeneriSelect);
         }
     });
 
@@ -26,15 +28,33 @@ $(document).ready(function () {
                 alert('Non hai inserito nessuna parola o lettera!');
             } else {
                 ricerca();
+
             }
         }
     });
 
+    function applicaFiltro(genere) {
+        if (genere == "") {
+            $('.card').show();
+        } else {
+            $('.card').each(function(){
+                var questaCard = $(this).find('.genere-film').text();
+                if (questaCard.includes(genere)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            })
+        }
+    }
+
     function noRisultati() {
         if (($(".container-film").is(":empty")) && ($(".container-serie").is(":empty"))) {
             $('.no-risultati').show();
+            $('.select-genere').hide();
         } else {
             $('.no-risultati').hide();
+            $('.select-genere').show();
         }
     }
 
@@ -47,6 +67,17 @@ $(document).ready(function () {
         cercaTitolo("movie", baseUrl, risultatoInput);
         cercaTitolo("tv", baseUrl, risultatoInput);
         $('#input-bar').val('');
+    }
+
+    function riempiFiltro(listaGeneri) {
+        for (var i = 0; i < listaGeneri.length; i++) {
+            $('.select-genere').append('<option value="'+listaGeneri[i] +'">' + listaGeneri[i] + "</option>");
+        }
+    }
+
+    function svuotaFiltro() {
+        $('.select-genere').empty();
+        $('.select-genere').append('<option value=""> Seleziona un genere </option>');
     }
 
     function cercaTitolo(tipo, url, input) {
@@ -81,7 +112,6 @@ $(document).ready(function () {
                         genere: setGenere(titoli[i].genre_ids, lista)
                     }
 
-                    console.log(questoTitolo.cast);
                     if (questoTitolo.titolo == questoTitolo.titoloOriginale) {
                         delete questoTitolo.titoloOriginale;
                     }
@@ -130,14 +160,17 @@ $(document).ready(function () {
     }
 
     function setGenere (idGenere, lista) {
-      var genereTitolo = "";
+      var genereTitolo = [];
       for (var i = 0; i < idGenere.length; i++) {
         for (var x = 0; x < lista.length; x++) {
           if (idGenere[i] == lista[x].id) {
-            genereTitolo += lista[x].name + " ";
+            genereTitolo.push(" " + lista[x].name);
+            listaGeneriSelect.push(lista[x].name);
           }
         }
       }
+      svuotaFiltro();
+      riempiFiltro(listaGeneriSelect);
       return genereTitolo;
     }
 

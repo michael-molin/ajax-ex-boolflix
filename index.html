@@ -33,6 +33,10 @@
             </div>
         </header>
         <div class="container-titoli">
+            <select class="select-genere">
+                <option value=""> Seleziona un genere</option>
+
+            </select>
             <h1 class="no-risultati">Nessun risultato trovato!</h1>
             <div class="container-film"></div>
             <div class="container-serie"></div>
@@ -49,7 +53,7 @@
                 <h5 class="titolo-originale">{{titoloOriginale}}</h5>
                 <span class="lingua">{{{lingua}}}</span>
                 <br>
-                <span>{{genere}}</span>
+                <span class="genere-film">{{genere}}</span>
                 <br>
                 <span id ="{{id}}"></span>
                 <p class="card-testo">{{testo}}</p>
