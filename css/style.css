@@ -68,6 +68,7 @@ header {
 .card {
     margin: 5px;
     flex: 0 1 345px;
+    height: 500px;
     border: 1px solid white;
     overflow-y: hidden;
     position: relative;
@@ -101,8 +102,9 @@ header {
 }
 
 .card-testo {
-    height: 150px;
-    overflow-y: auto;
+    margin: 10px 0;
+    height: 200px;
+    overflow-y: scroll;
     text-overflow: ellipsis;
 }
 

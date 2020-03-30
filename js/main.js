@@ -66,7 +66,9 @@ $(document).ready(function () {
                         lingua: setLingua(titoli[i].original_language),
                         voto: setStelle(titoli[i].vote_average),
                         poster: setPoster(titoli[i].poster_path),
-                        cast: setCast(titoli[i].id, url, tipo),
+                        cast: setCast(titoli[i].id, url, tipo, function (attori) {
+                            return ritornoAttori(attori);
+                        }),
                         genere: setGenere(titoli[i].genre_ids, lista)
                     }
 
@@ -88,42 +90,51 @@ $(document).ready(function () {
         })
     }
 
+    function ritornoAttori(listaAttori) {
+        console.log('dentro attori ricavati');
+        console.log(listaAttori);
+        // $('.attori').text(listaAttori);
+    }
+
     function setCast(idTitolo, baseurl, tipo) {
-      var attori = "";
-      $.ajax({
+    var attori = "";
+    $.ajax({
         url: baseurl + "/" + tipo + "/" + idTitolo + "/credits",
         method: "GET",
         data: {
-          api_key: 'e4a6a0f5b61f8597156e751b684b7437'
+            api_key: 'e4a6a0f5b61f8597156e751b684b7437'
         },
         success: function(data) {
-          var temp = data.cast;
-          for (var i = 0; i <= 4; i++) {
-            if (i<4) {
-              attori += temp[i].name + ", ";
-            } else {
-              attori += temp[i].name + ".";
+            var temp = data.cast;
+            for (var i = 0; i <= 4; i++) {
+                if (i < 4) {
+                    attori += temp[i].name + ", ";
+                } else {
+                    attori += temp[i].name + ".";
+                }
             }
-          }
-          console.log(attori);
+            if (ritornoAttori && typeof ritornoAttori === 'function') {
+                ritornoAttori(attori);
+            }
+
         },
-        error: function () {
+        error: function() {
             alert('ERRORE CAST');
         }
-      })
+    })
 
-    }
+}
 
     function setGenere (idGenere, lista) {
-      var tuttiGeneri = "";
+      var genereTitolo = "";
       for (var i = 0; i < idGenere.length; i++) {
         for (var x = 0; x < lista.length; x++) {
           if (idGenere[i] == lista[x].id) {
-            tuttiGeneri += lista[x].name + " ";
+            genereTitolo += lista[x].name + " ";
           }
         }
       }
-      return tuttiGeneri;
+      return genereTitolo;
     }
 
     function creaLista (serieFilm) {
