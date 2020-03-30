@@ -30,8 +30,18 @@ $(document).ready(function () {
         }
     });
 
+    function noRisultati() {
+        if (($(".container-film").is(":empty")) && ($(".container-serie").is(":empty"))) {
+            $('.no-risultati').show();
+        } else {
+            $('.no-risultati').hide();
+        }
+    }
+
     function ricerca(){
         $('.card').remove();
+        $(".container-film").empty();
+        $(".container-serie").empty();
         var baseUrl = "https://api.themoviedb.org/3";
         var risultatoInput = $('#input-bar').val();
         cercaTitolo("movie", baseUrl, risultatoInput);
@@ -82,6 +92,7 @@ $(document).ready(function () {
                         $('.container-serie').append(titoloCompilato);
                     }
                 }
+            noRisultati();
             },
             error: function () {
                 alert('ERRORE');
@@ -101,7 +112,7 @@ $(document).ready(function () {
         $("#"+idTitolo).text(attoriFilm);
     }
 
-        function setCast(idTitolo, baseurl, tipo) {
+    function setCast(idTitolo, baseurl, tipo) {
         $.ajax({
             url: baseurl + "/" + tipo + "/" + idTitolo + "/credits",
             method: "GET",
@@ -117,7 +128,6 @@ $(document).ready(function () {
         })
 
     }
-
 
     function setGenere (idGenere, lista) {
       var genereTitolo = "";

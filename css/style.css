@@ -59,6 +59,12 @@ header {
     min-height: 100vh;
 }
 
+.no-risultati {
+    color: white;
+    margin: 0 auto;
+    display: none;
+}
+
 .container-film, .container-serie {
     padding: 25px 45px 50px 45px;
     display: flex;
