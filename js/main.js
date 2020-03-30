@@ -60,17 +60,18 @@ $(document).ready(function () {
                         var lista = listaGeneriTv;
                     }
                     var questoTitolo = {
+                        id: titoli[i].id,
                         titolo: pathTitolo,
                         titoloOriginale: pathTitoloOriginale,
                         testo: titoli[i].overview,
                         lingua: setLingua(titoli[i].original_language),
                         voto: setStelle(titoli[i].vote_average),
                         poster: setPoster(titoli[i].poster_path),
-                        cast: setCast(titoli[i].id, url, tipo, ritornoAttori),
+                        cast: setCast(titoli[i].id, url, tipo),
                         genere: setGenere(titoli[i].genre_ids, lista)
                     }
 
-
+                    console.log(questoTitolo.cast);
                     if (questoTitolo.titolo == questoTitolo.titoloOriginale) {
                         delete questoTitolo.titoloOriginale;
                     }
@@ -88,7 +89,7 @@ $(document).ready(function () {
         })
     }
 
-    function ritornoAttori(listaAttori) {
+    function ritornoAttori(listaAttori, idTitolo) {
         var attoriFilm = "";
         for (var i = 0; i <= 4; i++) {
             if (i < 4) {
@@ -97,9 +98,7 @@ $(document).ready(function () {
                 attoriFilm += listaAttori[i].name + ".";
             }
         }
-        console.log(attoriFilm);
-        return attoriFilm;
-        // $('.attori').text(listaAttori);
+        $("#"+idTitolo).text(attoriFilm);
     }
 
         function setCast(idTitolo, baseurl, tipo) {
@@ -110,7 +109,7 @@ $(document).ready(function () {
                 api_key: 'e4a6a0f5b61f8597156e751b684b7437'
             },
             success: function(data) {
-                ritornoAttori(data.cast);
+                ritornoAttori(data.cast, idTitolo);
             },
             error: function() {
                 alert('ERRORE CAST');

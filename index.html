@@ -39,17 +39,18 @@
     </div>
 
     <script id="card-template" type="text/x-handlebars-template">
-        <div class="card">
+        <div class="card" data-titolo="{{id}}">
             <div class="poster-overlay">
                 <img src={{{poster}}} class="poster-card"alt="">
             </div>
-            <div class="card-info">
+            <div class="card-info" >
                 <h4 class="titolo">{{titolo}}</h4>
                 <h5 class="titolo-originale">{{titoloOriginale}}</h5>
                 <span class="lingua">{{{lingua}}}</span>
+                <br>
                 <span>{{genere}}</span>
                 <br>
-                <span class="attori">{{cast}}</span>
+                <span id ="{{id}}"></span>
                 <p class="card-testo">{{testo}}</p>
                 <div class="voto">{{{voto}}}</div>
             </div>
